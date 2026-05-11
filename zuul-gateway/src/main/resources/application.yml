@@ -1,0 +1,44 @@
+server:
+    port: 8080
+
+spring:
+    application:
+        name: zuul-gateway
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://localhost:8761/eureka/
+
+zuul:
+    # İlk istekteki tembel yüklemeyi (uyku halini) kapatır
+    ribbon:
+        eager-load:
+            enabled: true
+    routes:
+        aircraft-service:
+            path: /aircraft-service/**
+            serviceId: aircraft-service
+            strip-prefix: true
+        crew-service:
+            path: /crew-service/**
+            serviceId: crew-service
+            strip-prefix: true
+        flight-service:
+            path: /flight-service/**
+            serviceId: flight-service
+            strip-prefix: true
+
+# Mikroservisler arası bağlantı ve okuma sürelerini uzatır (Milisaniye)
+ribbon:
+    ReadTimeout: 5000
+    ConnectTimeout: 3000
+
+# Zuul'un genel zaman aşımı süresini artırır (10 saniye)
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 10000

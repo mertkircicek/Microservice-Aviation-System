@@ -1,0 +1,21 @@
+server:
+    port: 8081
+
+spring:
+    application:
+        name: aircraft-service
+    datasource:
+        # localhost:1433 standart SQL portudur.
+        url: jdbc:sqlserver://localhost:1433;databaseName=AviationDB;encrypt=true;trustServerCertificate=true
+        username: sa
+        password: MRT200124mrt
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    jpa:
+        hibernate:
+            ddl-auto: update # Java sınıflarına bakarak tabloları otomatik oluşturur/günceller
+        show-sql: true # Arka plandaki SQL sorgularını terminalde gösterir
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://localhost:8761/eureka/

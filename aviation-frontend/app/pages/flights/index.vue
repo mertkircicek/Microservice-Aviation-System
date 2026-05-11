@@ -26,11 +26,11 @@ const formState = reactive({
 })
 
 const aircraftOptions = computed(() => {
-  return aircrafts.value?.map(a => ({ label: `${a.model} (ID: ${a.id})`, value: a.id })) || []
+  return aircrafts.value?.filter(a => ['AVAILABLE', 'ACTIVE'].includes(a.status?.toUpperCase())).map(a => ({ label: `${a.model} (ID: ${a.id})`, value: a.id })) || []
 })
 
 const pilotOptions = computed(() => {
-  return crews.value?.filter(c => c.role.includes('Pilot')).map(c => ({ label: c.name, value: c.id })) || []
+  return crews.value?.filter(c => c.role.includes('Pilot') && c.status === 'AVAILABLE').map(c => ({ label: c.name, value: c.id })) || []
 })
 
 function openAddModal() {

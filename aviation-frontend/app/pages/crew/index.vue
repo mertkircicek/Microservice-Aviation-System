@@ -126,7 +126,7 @@ async function deletePersonnel(id) {
             <UButton
               icon="i-heroicons-pencil-square"
               size="xs"
-              color="gray"
+              color="neutral"
               variant="ghost"
               title="Edit"
               @click="openEditModal(row)"
@@ -152,7 +152,7 @@ async function deletePersonnel(id) {
               {{ isEditing ? 'Edit Personnel' : 'Add New Personnel' }}
             </h3>
             <UButton
-              color="gray"
+              color="neutral"
               variant="ghost"
               icon="i-heroicons-x-mark-20-solid"
               class="-my-1"
@@ -168,7 +168,7 @@ async function deletePersonnel(id) {
           <UFormField label="Full Name">
             <UInput
               v-model="formState.name"
-              placeholder="e.g. Ahmet Boz"
+              placeholder="e.g. Sabiha Gökçen"
               required
             />
           </UFormField>
@@ -184,7 +184,7 @@ async function deletePersonnel(id) {
           <div class="flex justify-end gap-3 mt-6">
             <UButton
               label="Cancel"
-              color="gray"
+              color="neutral"
               variant="ghost"
               @click="isModalOpen = false"
             />

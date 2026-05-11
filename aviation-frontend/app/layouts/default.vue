@@ -105,7 +105,7 @@
             />
             <div class="flex-1 min-w-0">
               <p class="text-sm font-semibold text-gray-900 dark:text-white truncate">
-                Mert Kırçiçek
+                Mert - Berkay
               </p>
               <p class="text-xs text-gray-500 truncate">
                 System Admin
@@ -131,7 +131,7 @@
           <UButton
             icon="i-heroicons-bars-3"
             variant="ghost"
-            color="gray"
+            color="neutral"
             class="md:hidden"
             @click="isSidebarOpen = true"
           />
@@ -140,7 +140,7 @@
               {{ route.meta.title || 'Dashboard' }}
             </h2>
             <p class="text-xs text-gray-500">
-              Enterprise Edition • v2.4.1
+              
             </p>
           </div>
         </div>
@@ -149,7 +149,7 @@
           <UButton
             icon="i-heroicons-bell"
             variant="ghost"
-            color="gray"
+            color="neutral"
             class="relative"
           >
             <span class="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white dark:ring-gray-900" />
@@ -157,7 +157,7 @@
           <UButton
             icon="i-heroicons-cog-8-tooth"
             variant="ghost"
-            color="gray"
+            color="neutral"
           />
         </div>
       </header>

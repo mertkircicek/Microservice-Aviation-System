@@ -28,4 +28,21 @@ public class CrewController {
     public CrewMember getCrewById(@PathVariable Long id) {
         return crewRepository.findById(id).orElse(null);
     }
+
+    // Mevcut bir mürettebat üyesini günceller
+    @PutMapping("/{id}")
+    public CrewMember updateCrew(@PathVariable Long id, @RequestBody CrewMember updatedCrew) {
+        return crewRepository.findById(id).map(crew -> {
+            crew.setName(updatedCrew.getName());
+            crew.setRole(updatedCrew.getRole());
+            crew.setStatus(updatedCrew.getStatus());
+            return crewRepository.save(crew);
+        }).orElse(null);
+    }
+
+    // Belirli bir mürettebatı siler
+    @DeleteMapping("/{id}")
+    public void deleteCrew(@PathVariable Long id) {
+        crewRepository.deleteById(id);
+    }
 }

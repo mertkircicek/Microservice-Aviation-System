@@ -2,7 +2,7 @@
 import { ref, reactive } from 'vue'
 
 // 1. Veriyi Çekme
-const { data: crewList, refresh } = await useFetch('http://localhost:8080/crew-service/api/crews')
+const { data: crewList, status, refresh } = useFetch('http://localhost:8080/crew-service/api/crews', { lazy: true })
 
 const columns = [
   { accessorKey: 'id', header: 'ID' },
@@ -10,6 +10,7 @@ const columns = [
   { accessorKey: 'role', header: 'Role' },
   { accessorKey: 'status', header: 'Status' },
   { id: 'actions', header: 'Actions' }
+
 ]
 
 // 2. Form ve Modal Durumları (State)
@@ -22,8 +23,8 @@ const formState = reactive({
   status: 'AVAILABLE'
 })
 
-const roleOptions = ['Pilot', 'ENGINEER', 'Cabin Crew']
-const statusOptions = ['AVAILABLE', 'ON_FLIGHT', 'ON_LEAVE']
+const roleOptions = ['Pilot', 'Co-Pilot', 'Engineer', 'Cabin Crew']
+const statusOptions = ['AVAILABLE', 'UNAVAILABLE', 'ON_FLIGHT', 'ON_LEAVE', 'RESTING']
 
 // 3. Ekleme Pop-up'ını Aç
 function openAddModal() {
@@ -65,6 +66,14 @@ async function savePersonnel() {
 
   isModalOpen.value = false // Modalı kapat
   await refresh() // Tabloyu anında yenile!
+  
+  const toast = useToast()
+  toast.add({
+    title: 'Personnel Saved',
+    description: `${formState.name} has been saved.`,
+    color: 'success',
+    icon: 'i-heroicons-check-circle'
+  })
 }
 
 // 6. Silme İşlemi (DELETE)
@@ -100,7 +109,8 @@ async function deletePersonnel(id) {
     <UCard shadow="sm">
       <UTable
         :columns="columns"
-        :data="crewList"
+        :data="crewList || []"
+        :loading="status === 'pending'"
       >
         <template #status-cell="{ row }">
           <UBadge
@@ -134,7 +144,7 @@ async function deletePersonnel(id) {
       </UTable>
     </UCard>
 
-    <UModal v-model="isModalOpen">
+    <UModal v-model="isModalOpen" prevent-close>
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <div class="flex items-center justify-between">
@@ -164,17 +174,11 @@ async function deletePersonnel(id) {
           </UFormGroup>
 
           <UFormGroup label="Role">
-            <USelect
-              v-model="formState.role"
-              :options="roleOptions"
-            />
+            <USelect v-model="formState.role" :items="roleOptions" />
           </UFormGroup>
 
           <UFormGroup label="Status">
-            <USelect
-              v-model="formState.status"
-              :options="statusOptions"
-            />
+            <USelect v-model="formState.status" :items="statusOptions" />
           </UFormGroup>
 
           <div class="flex justify-end gap-3 mt-6">

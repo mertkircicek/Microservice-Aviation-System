@@ -113,17 +113,17 @@ async function saveFlight() {
                 Flight Route Details
               </h4>
               
-              <UFormGroup label="Flight Number (Callsign)">
+              <UFormField label="Flight Number (Callsign)">
                 <UInput v-model="formState.flightNumber" placeholder="e.g. TK1903" required />
-              </UFormGroup>
+              </UFormField>
               
               <div class="grid grid-cols-2 gap-4">
-                <UFormGroup label="Origin (Departure)">
+                <UFormField label="Origin (Departure)">
                   <UInput v-model="formState.origin" placeholder="e.g. Istanbul (IST)" required />
-                </UFormGroup>
-                <UFormGroup label="Destination (Arrival)">
+                </UFormField>
+                <UFormField label="Destination (Arrival)">
                   <UInput v-model="formState.destination" placeholder="e.g. London (LHR)" required />
-                </UFormGroup>
+                </UFormField>
               </div>
             </div>
 
@@ -134,13 +134,13 @@ async function saveFlight() {
                 Asset & Crew Assignment
               </h4>
 
-              <UFormGroup label="Assign Aircraft">
+              <UFormField label="Assign Aircraft">
                 <USelect v-model="formState.aircraftId" :items="aircraftOptions" required placeholder="Choose a registered Aircraft" />
-              </UFormGroup>
+              </UFormField>
               
-              <UFormGroup label="Assign Captain / Pilot">
+              <UFormField label="Assign Captain / Pilot">
                 <USelect v-model="formState.pilotId" :items="pilotOptions" required placeholder="Choose an available Pilot" />
-              </UFormGroup>
+              </UFormField>
             </div>
 
             <div class="flex justify-end gap-3 pt-2">

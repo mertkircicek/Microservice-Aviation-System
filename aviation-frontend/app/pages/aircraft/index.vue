@@ -88,12 +88,12 @@ async function saveAircraft() {
         </template>
 
         <form class="space-y-4" @submit.prevent="saveAircraft">
-          <UFormGroup label="Aircraft Model">
+          <UFormField label="Aircraft Model">
             <UInput v-model="formState.model" placeholder="e.g. Boeing 737" required />
-          </UFormGroup>
-          <UFormGroup label="Status">
+          </UFormField>
+          <UFormField label="Status">
             <USelect v-model="formState.status" :items="statusOptions" />
-          </UFormGroup>
+          </UFormField>
           <div class="flex justify-end gap-3 mt-6">
             <UButton label="Cancel" color="neutral" variant="ghost" @click="isModalOpen = false" />
             <UButton type="submit" label="Save Aircraft" color="primary" />

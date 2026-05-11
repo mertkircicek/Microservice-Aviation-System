@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - aviation-net
+
+  zuul-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: zuul-gateway
+    container_name: zuul-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - aviation-net
+
+  crew-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: crew-service
+    container_name: crew-service
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:sqlserver://host.docker.internal:1433;databaseName=AviationDB;encrypt=true;trustServerCertificate=true
+    depends_on:
+      - eureka-server
+    networks:
+      - aviation-net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  aircraft-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: aircraft-service
+    container_name: aircraft-service
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:sqlserver://host.docker.internal:1433;databaseName=AviationDB;encrypt=true;trustServerCertificate=true
+    depends_on:
+      - eureka-server
+    networks:
+      - aviation-net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  flight-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: flight-service
+    container_name: flight-service
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:sqlserver://host.docker.internal:1433;databaseName=AviationDB;encrypt=true;trustServerCertificate=true
+    depends_on:
+      - eureka-server
+    networks:
+      - aviation-net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  aviation-frontend:
+    build:
+      context: ./aviation-frontend
+      dockerfile: Dockerfile
+    container_name: aviation-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - zuul-gateway
+    networks:
+      - aviation-net
+
+networks:
+  aviation-net:
+    driver: bridge

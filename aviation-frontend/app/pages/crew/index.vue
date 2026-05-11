@@ -165,21 +165,21 @@ async function deletePersonnel(id) {
           class="space-y-4"
           @submit.prevent="savePersonnel"
         >
-          <UFormGroup label="Full Name">
+          <UFormField label="Full Name">
             <UInput
               v-model="formState.name"
               placeholder="e.g. Ahmet Boz"
               required
             />
-          </UFormGroup>
+          </UFormField>
 
-          <UFormGroup label="Role">
+          <UFormField label="Role">
             <USelect v-model="formState.role" :items="roleOptions" />
-          </UFormGroup>
+          </UFormField>
 
-          <UFormGroup label="Status">
+          <UFormField label="Status">
             <USelect v-model="formState.status" :items="statusOptions" />
-          </UFormGroup>
+          </UFormField>
 
           <div class="flex justify-end gap-3 mt-6">
             <UButton
